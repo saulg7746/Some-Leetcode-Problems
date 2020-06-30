@@ -1,4 +1,4 @@
-#include "utilities.h"
+﻿#include "utilities.h"
 #ifndef SOLUTIONS_CPP
 #define SOLUTIONS_CPP
 
@@ -99,7 +99,7 @@ public:
 		return count;
 	}
 
-	/* Sliding Window Median
+	/*				Sliding Window Median
 	Median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value. So the median is the mean of the two middle value.
 
 	Examples:
@@ -144,6 +144,29 @@ public:
 			index++;
 		}
 		return mediumSlidingWindow;
+	}
+
+	/*			Find the Duplicate Number
+	Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), 
+	prove that at least one duplicate number must exist. Assume that there is only one duplicate number, 
+	find the duplicate one.
+
+	Example 1:
+		Input: [1,3,4,2,2]
+		Output: 2
+
+	Example 2:
+		Input: [3,1,3,4,2]
+		Output: 3
+	*/
+	int findDuplicate(std::vector<int>& nums) {
+		merge_sort(nums, 0 , nums.size()-1);
+		int num = nums[0];
+		for (int i = 1; i < nums.size(); i++)
+			if (nums[i] == num)
+				return nums[i];
+			else
+				num = nums[i];
 	}
 };
 
