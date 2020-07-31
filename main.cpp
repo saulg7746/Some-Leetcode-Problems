@@ -3,11 +3,11 @@
 int main()
 {
 	Solutions solutions;
-	std::vector < int > nums = { 3,1,3,4,2 };
-	int ans = solutions.findDuplicate(nums);
+	std::vector<int> input = { 1,15,7,9,2,5,10 };
+
+	std::cout << solutions.maxSumAfterPartitioning(input, 3);
 	
 
-	std::cout << ans << std::endl;
 
 	return 0;
 }

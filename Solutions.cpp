@@ -168,6 +168,141 @@ public:
 			else
 				num = nums[i];
 	}
+
+	/*			Maximum Number of Events That Can Be Attended
+	Given an array of events where events[i] = [startDayi, endDayi]. Every event i starts at startDayi and ends at endDayi.
+
+	You can attend an event i at any day d where startTimei <= d <= endTimei. Notice that you can only attend one event at any time d.
+
+	Return the maximum number of events you can attend.
+	*/
+	int maxEvents(std::vector<std::vector<int>>& events) {
+		std::vector<int> subset;
+		for (int i = 0; i < events.size(); i++)
+			subset.push_back(events[i][0]);
+		
+		merge_sort(subset, 0, subset.size()-1);
+		std::vector<int> Days;
+		Days.push_back(subset.at(0));
+		for (int i = 1; i < subset.size(); i++)
+			if (subset[i] != subset[i - 1])
+				Days.push_back(subset[i]);
+
+		
+		std::vector<std::vector<int>> sortedSubset;
+		for (int i = 0; i < Days.size(); i++)
+		{
+			std::vector<int> secondSubset;
+			for (int j = 0; j < events.size(); j++)
+			{
+				if (events[j][0] == Days[i])
+					secondSubset.push_back(events[j][1]);
+			}
+			merge_sort(secondSubset, 0, secondSubset.size() - 1);
+			for (int j = 0; j < secondSubset.size(); j++)
+				sortedSubset.push_back({ Days[i], secondSubset[j] });
+			
+		}
+		for (int i = 0; i < sortedSubset.size(); i++)
+				std::cout << "[" << sortedSubset[i][0] << "," << sortedSubset[i][1] << "] ";
+
+		Days.clear();
+		for (int i = sortedSubset[sortedSubset.size()-1][1]; i > 0; i--)
+			Days.push_back(i);
+
+		merge_sort(Days, 0, Days.size() - 1);
+
+		int index = 0;
+		int count = 0;
+		for (int i = 0; i < sortedSubset.size(); i++)
+		{
+			if ((Days[index] >= sortedSubset[i][0]) && (Days[index] <= sortedSubset[i][1]))
+			{
+				count++;
+				index++;
+			}
+		}
+
+
+		return count;
+	}
+
+	/*			Custom Sort String
+	S and T are strings composed of lowercase letters. In S, no letter occurs more than once.
+
+	S was sorted in some custom order previously. We want to permute the characters of T 
+	so that they match the order that S was sorted. More specifically, if x occurs before 
+	y in S, then x should occur before y in the returned string.
+
+	Return any permutation of T (as a string) that satisfies this property.
+	*/
+	std::string customSortString(std::string S, std::string T) {
+		std::map<char, char> order;
+		std::map<char, char> mapped_pairs;
+		std::string ans = "";
+		std::map<char, char>::iterator it;
+
+		for (int i = 0; i < S.length(); i++)
+			(i < (S.length()-1)) ? order.insert(std::pair<char, char>(S[i], S[i+1])) : order.insert(std::pair<char, char>(S[i], '\0'));
+
+		for (int i = 0; i < T.length(); i++)
+			if ((it = order.find(T[i])) != order.end())
+				mapped_pairs.insert(std::pair<char, char>(it->first, it->second));
+			else
+				ans += T[i];
+
+
+		char start = '\0';
+		for (int i = 0; i < S.length(); i++)
+			if ((it = mapped_pairs.find(S[i])) != mapped_pairs.end())
+			{
+				start = S[i];
+				break;
+			}
+
+		while (start != '\0')
+		{
+			for (int i = 0; i < T.length(); i++)
+				if (T[i] == start)
+					ans += start;
+			start = mapped_pairs[start];
+		}
+		return ans;
+	}
+
+	/* Partition Array into Disjoint Intervals
+	Given an array A, partition it into two (contiguous) subarrays left and right so that:
+
+		Every element in left is less than or equal to every element in right.
+		left and right are non-empty.
+		left has the smallest possible size.
+	Return the length of left after such a partitioning.  It is guaranteed that such a partitioning exists.
+	*/
+	int partitionDisjoint(std::vector<int>& A) {
+		std::vector<int> left;
+		int initial = A[0];
+		for (int i = 0; i < A.size(); i++)
+			if (A[i] > initial)
+				break;
+			else
+				left.push_back(A[i]);
+
+		return left.size();
+	}
+
+	int maxSumAfterPartitioning(std::vector<int>& A, int K) {
+		if (A.size() == 0)
+			return 0;
+		else if (A.size() <= K)
+			return max_in_array(A) * (A.size() - 1);
+
+		std::vector<int> list(A.begin(), A.begin()+K);
+	
+		for (int i = 0; i < list.size(); i++)
+			std::cout << list[i];
+
+		return 0;
+	}
 };
 
 #endif
