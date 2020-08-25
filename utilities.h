@@ -4,6 +4,24 @@
 #include <list>
 #include <stack>
 #include <sstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <map>
+
+#ifndef UTILITIES_HPP
+#define UTILITIES_HPP
+
+//Definition for a binary tree node.
+struct TreeNode {
+	int val;
+	TreeNode *left;
+	TreeNode *right;
+	TreeNode() : val(0), left(nullptr), right(nullptr) {}
+	TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+	TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+
+
 
 
 template<typename T>
@@ -43,3 +61,14 @@ void merge_sort(std::vector<T> &a, int low, int high) {
 		merge(a, low, mid, mid + 1, high);  
 	}
 }
+
+static const int max_in_array(const std::vector<int>& A) 
+{
+	int initial = A[0];
+	for (int i = 0; i < A.size(); i++)
+		if (A[i] > initial)
+			initial = A[i];
+
+	return initial;
+}
+#endif
